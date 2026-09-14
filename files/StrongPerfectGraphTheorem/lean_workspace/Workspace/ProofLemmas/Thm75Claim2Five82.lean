@@ -33,8 +33,8 @@ That is: the rung replacement, and then the two branches the paper runs in turn 
 
 ## What plugs in where
 
-* `Workspace.ProofLemmas.Thm75AppearanceFromRungReplacement.appearanceFromRungReplacement` builds
-  `L(H′)`.  **Its `hpar` binder is discharged, in 5.8.2's case 1, by the Berge argument recorded
+* The rung replacement builds `L(H′)` (the former statement-only module
+  `Thm75AppearanceFromRungReplacement` has been removed).  **Its parity hypothesis `hpar` is discharged, in 5.8.2's case 1, by the Berge argument recorded
   in the "RESOLVED" subsection of `AMBIGUITIES.md`'s 7.5 entry** — `R′` runs from `p₁ ∈ F` to
   `s₂ ∈ K` and `F ∩ K = ∅`, so the new branch has length `≥ 2` and `H′` is triangle-free; a
   non-bipartite `H′` would then carry an odd cycle of length `≥ 5`, whose line graph is an

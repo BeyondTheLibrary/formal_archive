@@ -326,15 +326,6 @@ private theorem minimal_path_between_attachments {Gx : SimpleGraph V} {m n : ℕ
     Set.eq_of_subset_of_ncard_le hsub (not_lt.mp hnlt) (Set.toFinite F)
   exact ⟨p, hp, hp3, heq⟩
 
-/-! ### Claim (1) -/
-
-theorem claim1 {Gx : SimpleGraph V} {m n : ℕ}
-    {S : Fin m → Set V × Set V × Set V} {T : Fin n → Set V × Set V × Set V} {F : Set V}
-    (hs : Setup Gx S T) (hF : Cand Gx S T F) (hmin : Minimal Gx S T F)
-    (hnot : ¬ LocalForStriation Gx S T (attachments Gx F (striationVertices S T))) :
-    ¬ (attachments Gx F (striationVertices S T) ⊆ ⋃ j : Fin n, stripVertices (T j)) := by
-  sorry
-
 /-! ### Claim (2)
 
 PAPER: *"(2) `X` meets exactly one of `S₁, …, S_m`.  For by (1) it meets at least one of these

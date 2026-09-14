@@ -1,5 +1,9 @@
-import Workspace.ProofLemmas.Thm93CaseTwoCommon
+import Workspace.Types.Knots
+import Workspace.Types.Overshadowed
+import Workspace.ProofLemmas.Thm93Infrastructure
+import Workspace.ProofLemmas.PathGlue
 import Workspace.ProofLemmas.BergeTwoRegularCriterion
+import Workspace.ProofLemmas.K4AppearanceEightVertices
 import Workspace.ProofLemmas.K4AppearanceDegreeCriterion
 import Workspace.ProofLemmas.K4TrackLengthDegeneracy
 import Workspace.ProofLemmas.LK33Regular
@@ -8,9 +12,11 @@ import Workspace.ProofLemmas.NoK4EnlargementAppearance
 /-!
 # Statement 9.3, as printed, is false
 
-A self-contained counterexample.  Every hypothesis of `Workspace.Statements.S09.SPGT.thm_9_3`
-holds of the configuration below, and the conclusion **as printed in the paper** fails; this is
-bundled as the single theorem `printed_nine_three_false`.
+This module is a countermodel, not a step of the proof.  It lives in `Workspace/Counterexamples`
+and nothing in the development imports it: the main theorem does not depend on a single line
+below.  Its job is to justify one repair the repository makes to the paper, by exhibiting a
+graph that satisfies every hypothesis of `Workspace.Statements.S09.SPGT.thm_9_3` and refutes the
+conclusion **as printed**.  That is the content of the single theorem `printed_nine_three_false`.
 
 The graph has eleven vertices.  On `{0,…,9}` it is the complement of the line graph of the
 bipartite subdivision of `K₄` with square `0-1-2-3-0` and diagonal branches `0-4-5-6-2` and
@@ -28,17 +34,11 @@ repair of outcome 9.3.4 — `∃ w, (w ∈ Q₁ ∨ w ∈ Q₂) ∧ w ∉ Q' ∧
 the printed `¬ G.Adj f y` — and this configuration *satisfies* the repaired conclusion, with
 witness `w = 5` (`repaired_conclusion11`).  The two results together pin the repair exactly:
 the printed clause genuinely fails here, the weakened clause genuinely holds.
-
-A different, ten-vertex graph lives in `Workspace.ProofLemmas.Thm93CaseTwoCounterexample`.  It
-is **not** a counterexample to 9.3 — it puts `F` inside `K`, violating `hFsub` — and exists to
-certify that the hypothesis `hfK : f ∉ K` of
-`Thm93GapLemmas.case_two_nonmajor_five_eight_endgame_gap` is necessary.  Nothing here depends
-on it.
 -/
 
 set_option autoImplicit false
 
-namespace Workspace.ProofLemmas.Thm93PrintedCounterexample
+namespace Workspace.Counterexamples.Thm93
 
 open Workspace.Types.Core Workspace.Types.Core.SPGT
 open Workspace.Types.Knots Workspace.Types.Knots.SPGT
@@ -141,8 +141,8 @@ theorem short_paths11 :
 theorem antipaths11 :
     IsAntipathFrom graph11 [4,5,6,7] 4 7 ∧ IsAntipathFrom graph11 [8,9] 8 9 := by
   refine ⟨⟨?_, rfl, rfl⟩, ⟨PathBasics.isPathList_pair (by decide), rfl, rfl⟩⟩
-  exact _root_.ProofAttempts.Thm21Aux.isPathList_four graph11ᶜ 4 5 6 7
-    (by decide) (by decide) (by decide) (by decide) (by decide) (by decide) (by decide)
+  exact PathGlue.isPathList_four (G := graph11ᶜ) (by decide) (by decide) (by decide)
+    (by decide) (by decide) (by decide) (by decide)
 
 theorem isKnot11 : IsKnot graph11 [0,1] [2,3] [4,5,6,7] [8,9] := by
   refine ⟨0,1,2,3,4,7,8,9, short_paths11.1, short_paths11.2,
@@ -495,4 +495,4 @@ theorem printed_nine_three_false :
     F_subset_compl11, F_connected11, attachments_not_local11, not_conclusion11⟩
 
 
-end Workspace.ProofLemmas.Thm93PrintedCounterexample
+end Workspace.Counterexamples.Thm93

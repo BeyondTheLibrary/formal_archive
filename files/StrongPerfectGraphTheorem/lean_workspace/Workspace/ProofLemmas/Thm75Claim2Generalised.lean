@@ -60,7 +60,7 @@ subset of an `F` with `F.ncard ≤ n + 1` has cardinality `≤ n`.
 `Workspace.ProofLemmas.Thm75Claim2.thm75Claim2` is stated for `H : SimpleGraph W` with `W` an
 arbitrary finite type, whereas this frame uses `H : SimpleGraph (Fin m)` so that the induction
 stays in `Type 0` and so that the appearance produced by the rung replacement
-(`Workspace.ProofLemmas.Thm75AppearanceFromRungReplacement`, which lands in `Fin m`) is directly
+(which lands in `Fin m`) is directly
 an instance of the quantifier.  `thm75Claim2` follows from this by transporting the appearance
 along `SimpleGraph.Iso.map (Fintype.equivFin W) H`, exactly as
 `Workspace.ProofLemmas.AppearanceVertexTypeTransport` (namespace `Thm75Claim2Transport`) does for

@@ -529,21 +529,39 @@ function erratumRefs(h, e) {
 }
 
 // Header button "⚠ Error in the paper": jump to the refuted passage(s).
+// Absolute URL of the paper's formalization report (site-relative in meta,
+// resolved against the site root, or an external URL as given).
+function reportUrl() {
+  const r = state.report;
+  if (!r || !r.url) return null;
+  return /^https?:/i.test(r.url) ? r.url : new URL(r.url.replace(/^\//, ''), ROOT).href;
+}
+
 function setupErrataButton() {
   const btn = document.getElementById('btn-errata');
   if (!btn) return;
   const list = state.errata || [];
-  if (!list.length) { btn.hidden = true; return; }
+  const rep = reportUrl();
+  if (!list.length && !rep) { btn.hidden = true; return; }
   btn.hidden = false;
-  btn.textContent = list.length === 1 ? '⚠ Error found in the paper' : `⚠ ${list.length} errors found in the paper`;
-  btn.title = list.map(h => (h.erratum && h.erratum.title) || ('PDF p. ' + h.pdf_page)).join('\n')
-    + '\n\nJump to it in the PDF and see what is wrong and how the formalization fixed it';
+  btn.textContent = !list.length ? '📄 Formalization report'
+    : list.length === 1 ? '⚠ Error found in the paper' : `⚠ ${list.length} errors found in the paper`;
+  btn.title = (list.map(h => (h.erratum && h.erratum.title) || ('PDF p. ' + h.pdf_page)).join('\n')
+    + (list.length ? '\n\nJump to it in the PDF and see what is wrong and how the formalization fixed it' : '')
+    + (rep ? '\n\nAlso: open the formalization report (PDF)' : '')).trim();
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (list.length === 1) { goToErratum(0); return; }
+    if (!list.length) { window.open(rep, '_blank', 'noopener'); return; }
+    if (list.length === 1 && !rep) { goToErratum(0); return; }
     const r = btn.getBoundingClientRect();
     showErrataList(list, { clientX: r.left, clientY: r.bottom - 8 });
   });
+}
+
+function reportLinkHtml(cls, text) {
+  const rep = reportUrl();
+  if (!rep) return '';
+  return '<a class="' + cls + '" href="' + escapeHtml(rep) + '" target="_blank" rel="noopener">' + text + '</a>';
 }
 
 // Chooser listing every erratum (title + page); pick one to jump to it.
@@ -553,12 +571,16 @@ function showErrataList(list, ev) {
   pop.innerHTML = '<div class="hlp-head erx-head">⚠ Errors found in the paper</div>' +
     list.map((h, i) => '<button class="hlp-item" data-i="' + i + '">' +
       '<div class="hlp-line"><span class="hlp-rel">' + escapeHtml((h.erratum && h.erratum.title) || h.lean_fqn) + '</span>' +
-      '<span class="hlp-name">p. ' + h.pdf_page + '</span></div></button>').join('');
+      '<span class="hlp-name">p. ' + h.pdf_page + '</span></div></button>').join('') +
+    reportLinkHtml('hlp-item erx-report',
+      '<div class="hlp-line"><span class="hlp-rel">📄 ' + escapeHtml((state.report && state.report.title) || 'Formalization report') + '</span>' +
+      '<span class="hlp-name">PDF ↗</span></div>');
   pop.hidden = false;
   placePopover(pop, ev);
-  for (const it of pop.querySelectorAll('.hlp-item')) {
+  for (const it of pop.querySelectorAll('button.hlp-item')) {
     it.addEventListener('click', () => { hideHlPopover(); goToErratum(+it.dataset.i); });
   }
+  for (const a of pop.querySelectorAll('a.erx-report')) a.addEventListener('click', () => setTimeout(hideHlPopover, 0));
 }
 
 function goToErratum(i) {
@@ -603,7 +625,9 @@ function showErratumPopover(h, ev) {
       '<button class="erx-ref" type="button" data-i="' + i + '" title="' + escapeHtml(r.fqn) + '">' +
       escapeHtml(r.label || r.fqn.split('.').slice(-1)[0]) +
       ' <span class="erx-fqn">' + escapeHtml(r.fqn.split('.').slice(-2).join('.')) + '</span></button>').join('') +
-    '</div></div>';
+    '</div>' +
+    (reportUrl() ? '<div class="erx-foot">' + reportLinkHtml('', '📄 Full account in the formalization report ↗') + '</div>' : '') +
+    '</div>';
   pop.hidden = false;
   placePopover(pop, ev);
   for (const b of pop.querySelectorAll('.erx-ref')) {
@@ -1731,6 +1755,7 @@ async function main() {
   // pdf_url is emitted as a root-relative path (/files/...); resolve it against
   // ROOT so it works under a sub-path deployment too.
   const pdfUrl = meta.pdf_url ? new URL(meta.pdf_url.replace(/^\//, ''), ROOT).href : null;
+  state.report = meta.report || null;   // the paper's formalization report, if it ships one
   if (!pdfUrl) { document.getElementById('loading').textContent = 'No PDF found for this paper.'; return; }
 
   for (const env of paper.envs) {

@@ -1,1 +1,1 @@
-{"id": "StrongPerfectGraphTheorem", "title": "The Strong Perfect Graph Theorem", "pdf_url": "/files/StrongPerfectGraphTheorem/perfect.pdf", "counts": {"envs": 65, "decls": 6942, "links": 5334}}
+{"id": "StrongPerfectGraphTheorem", "title": "The Strong Perfect Graph Theorem", "pdf_url": "/files/StrongPerfectGraphTheorem/perfect.pdf", "counts": {"envs": 65, "decls": 6885, "links": 5288}, "report": {"url": "/reports/strong_perfect_graph_issues.pdf", "title": "A Lean 4 Formalization of the Strong Perfect Graph Theorem (report)"}}

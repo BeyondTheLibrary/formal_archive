@@ -12718,8 +12718,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm185Helpers.claim1",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm185Helpers.lean",
       "lean_range": {
-        "start_line": 530,
-        "end_line": 709,
+        "start_line": 529,
+        "end_line": 686,
         "start_col": null,
         "end_col": null
       },
@@ -12748,8 +12748,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm185Helpers.claim2_of_neighbour",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm185Helpers.lean",
       "lean_range": {
-        "start_line": 426,
-        "end_line": 529,
+        "start_line": 425,
+        "end_line": 528,
         "start_col": null,
         "end_col": null
       },
@@ -12778,8 +12778,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm185Helpers.conclusion_of_no_neighbour",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm185Helpers.lean",
       "lean_range": {
-        "start_line": 161,
-        "end_line": 172,
+        "start_line": 160,
+        "end_line": 171,
         "start_col": null,
         "end_col": null
       },
@@ -12808,8 +12808,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm185Helpers.hole_from_two_neighbours",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm185Helpers.lean",
       "lean_range": {
-        "start_line": 399,
-        "end_line": 425,
+        "start_line": 398,
+        "end_line": 424,
         "start_col": null,
         "end_col": null
       },
@@ -12838,8 +12838,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm185Helpers.window_after",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm185Helpers.lean",
       "lean_range": {
-        "start_line": 338,
-        "end_line": 357,
+        "start_line": 337,
+        "end_line": 356,
         "start_col": null,
         "end_col": null
       },
@@ -12868,8 +12868,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm185Helpers.window_le",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm185Helpers.lean",
       "lean_range": {
-        "start_line": 358,
-        "end_line": 398,
+        "start_line": 357,
+        "end_line": 397,
         "start_col": null,
         "end_col": null
       },
@@ -13438,8 +13438,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm192Claim2Gap.path_in_minimal_A_of_inductive_wheel",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm192Claim2Gap.lean",
       "lean_range": {
-        "start_line": 39,
-        "end_line": 62,
+        "start_line": 40,
+        "end_line": 63,
         "start_col": null,
         "end_col": null
       },
@@ -24414,36 +24414,6 @@
       "prose": "Let W = (Nc1 \\ r1 ) \u222a (Nc2 \\ r2 ). Then W \u2286 X1 by (3), and since there are no edges between Nc1 and Nc2 , it follows that W has exactly two components, both cliques. In particular, W is anticonnected"
     },
     {
-      "link_id": "lnk_6ef4d665c65f94f4",
-      "lean_fqn": "Workspace.ProofLemmas.Thm75AppearanceFromRungReplacement.appearanceFromRungReplacement",
-      "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm75AppearanceFromRungReplacement.lean",
-      "lean_range": {
-        "start_line": 90,
-        "end_line": 118,
-        "start_col": null,
-        "end_col": null
-      },
-      "kind": "have_step",
-      "confidence": 0.7,
-      "source": "manual",
-      "verifier_vote": "none",
-      "rationale": "Replacing the rung Rb\u2081b\u2082 by R\u2032 produces a new appearance L(H\u2032) of J.",
-      "reachable": false,
-      "assumption_tainted": true,
-      "refuted": false,
-      "erratum": null,
-      "show_in_pdf": false,
-      "latex_file": "paper_text.tex",
-      "latex_range": {
-        "start_line": 1523,
-        "end_line": 1525,
-        "start_col": 20,
-        "end_col": 22
-      },
-      "pdf_page": 39,
-      "prose": "So if in L(H) we replace Rb1 b2 by R0 we obtain another appearance of J in G, say L(H 0 ), where H 0 is obtained from H by replacing the branch B b1 b2 by some new branch B 0 joining the same two vertices."
-    },
-    {
       "link_id": "lnk_f279bde9a72a63ef",
       "lean_fqn": "Workspace.ProofLemmas.Thm75BranchEnds.thm75BranchEnds",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm75BranchEnds.lean",
@@ -28884,66 +28854,6 @@
       "prose": "By hypothesis, V (K) \\ X is not local"
     },
     {
-      "link_id": "lnk_839cc611df210af1",
-      "lean_fqn": "Workspace.ProofLemmas.Thm93CaseTwoCounterexample.PrintedConclusion",
-      "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm93CaseTwoCounterexample.lean",
-      "lean_range": {
-        "start_line": 35,
-        "end_line": 69,
-        "start_col": null,
-        "end_col": null
-      },
-      "kind": "definition",
-      "confidence": 0.95,
-      "source": "manual",
-      "verifier_vote": "none",
-      "rationale": "Verbatim transcription of the conclusion of 9.3 **as printed** \u2014 the four outcomes 9.3.1\u20139.3.4 in printed order, including the printed final clause of 9.3.4, `\u00ac G.Adj f y` (quoted). It is `Thm93Infrastructure.Conclusion` with that clause put back in place of the repaired clause `\u2203 w, (w \u2208 Q\u2081 \u2228 w \u2208 Q\u2082) \u2227 w \u2209 Q' \u2227 w \u2260 x \u2227 \u00ac G.Adj f w` that this development now uses in `Workspace.Statements.S09.SPGT.thm_9_3`. It exists only to be refuted by `not_conclusion`.",
-      "reachable": false,
-      "assumption_tainted": false,
-      "refuted": false,
-      "erratum": null,
-      "show_in_pdf": false,
-      "latex_file": "paper_text.tex",
-      "latex_range": {
-        "start_line": 2030,
-        "end_line": 2031,
-        "start_col": 3,
-        "end_col": 47
-      },
-      "pdf_page": 50,
-      "prose": "there is a vertex f \u2208 F such that (up to symmetry) f, x 1 have the same neighbours in V (P1 ) \u222a V (P2 ) \u222a V (Q2 ) and f is not adjacent to y1 ."
-    },
-    {
-      "link_id": "lnk_4e008ffd9feab13c",
-      "lean_fqn": "Workspace.ProofLemmas.Thm93CaseTwoCounterexample.not_conclusion",
-      "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm93CaseTwoCounterexample.lean",
-      "lean_range": {
-        "start_line": 124,
-        "end_line": 151,
-        "start_col": null,
-        "end_col": null
-      },
-      "kind": "other",
-      "confidence": 0.9,
-      "source": "manual",
-      "verifier_vote": "none",
-      "rationale": "All four alternatives of 9.3 as printed fail for F = {x\u2081}.",
-      "reachable": false,
-      "assumption_tainted": false,
-      "refuted": true,
-      "erratum": null,
-      "show_in_pdf": false,
-      "latex_file": "paper_text.tex",
-      "latex_range": {
-        "start_line": 2030,
-        "end_line": 2031,
-        "start_col": 3,
-        "end_col": 47
-      },
-      "pdf_page": 50,
-      "prose": "there is a vertex f \u2208 F such that (up to symmetry) f, x 1 have the same neighbours in V (P1 ) \u222a V (P2 ) \u222a V (Q2 ) and f is not adjacent to y1 ."
-    },
-    {
       "link_id": "lnk_81de722ee27a2a57",
       "lean_fqn": "Workspace.ProofLemmas.Thm93CaseTwoLeaps.no_common_neighbor",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm93CaseTwoLeaps.lean",
@@ -29728,8 +29638,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.claim1_offspring_enlargement_gap",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 918,
-        "end_line": 939,
+        "start_line": 909,
+        "end_line": 930,
         "start_col": null,
         "end_col": null
       },
@@ -29758,8 +29668,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.claim3_global_path_gap",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 984,
-        "end_line": 1011,
+        "start_line": 975,
+        "end_line": 1002,
         "start_col": null,
         "end_col": null
       },
@@ -29788,8 +29698,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.claim3_outcome3_maximality_gap",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 1012,
-        "end_line": 1037,
+        "start_line": 1003,
+        "end_line": 1028,
         "start_col": null,
         "end_col": null
       },
@@ -29818,8 +29728,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.closing_global_path_gap",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 1253,
-        "end_line": 1293,
+        "start_line": 1244,
+        "end_line": 1284,
         "start_col": null,
         "end_col": null
       },
@@ -29848,8 +29758,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.closing_outcome2_maximality_gap",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 1294,
-        "end_line": 1323,
+        "start_line": 1285,
+        "end_line": 1314,
         "start_col": null,
         "end_col": null
       },
@@ -29878,8 +29788,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.local_of_minimal",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 1485,
-        "end_line": 1496,
+        "start_line": 1476,
+        "end_line": 1487,
         "start_col": null,
         "end_col": null
       },
@@ -29908,8 +29818,8 @@
       "lean_fqn": "Workspace.ProofLemmas.Thm95Body.no_strip_attachment_path",
       "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm95Body.lean",
       "lean_range": {
-        "start_line": 801,
-        "end_line": 917,
+        "start_line": 792,
+        "end_line": 908,
         "start_col": null,
         "end_col": null
       },
@@ -40436,55 +40346,9 @@
       "prose": "Let us say that distinct vertices u, v of the rim of a wheel (C, Y ) have the same wheel-parity if there is a path of the rim joining them containing an even number of Y -complete edges (and hence by 2.3, so does the second path, if u, v are nonadjacent); and opposite wheel-parity otherwise"
     },
     {
-      "link_id": "lnk_5c43fc0469520f8c",
-      "lean_fqn": "Workspace.Statements.S10.SPGT.thm_10_6",
-      "lean_file": "lean_workspace/Workspace/Statements/S10/Thm_10_6.lean",
-      "lean_range": {
-        "start_line": 24,
-        "end_line": 42,
-        "start_col": null,
-        "end_col": null
-      },
-      "kind": "other",
-      "confidence": 0.95,
-      "source": "manual",
-      "verifier_vote": "none",
-      "rationale": "Erratum anchor: Theorem 1.8(4), statement: the hypothesis must be G \u2208 F\u2083, not G \u2208 F\u2081",
-      "reachable": true,
-      "assumption_tainted": false,
-      "refuted": false,
-      "erratum": {
-        "title": "Theorem 1.8(4), statement: the hypothesis must be G \u2208 F\u2083, not G \u2208 F\u2081",
-        "problem": "Item (4) of 1.8 reads \"For every G \u2208 F\u2081, either G is an even prism with 9 vertices, or G admits a proper 2-join or a balanced skew partition, or G \u2208 F\u2084\" (p. 7). Since F\u2084 \u2286 F\u2083 and F\u2081 is not contained in F\u2083, the alternatives cannot cover F\u2081. An 8-vertex counterexample is G = L(H), where H is K\u2084 with two opposite edges ac and bd each subdivided once: G is Berge and self-complementary, its only K\u2084-appearance is degenerate so G \u2208 F\u2081, and G \u2209 F\u2083. Exhaustively, G is not an even prism, has 8 vertices rather than 9, admits no proper 2-join over any split, and has exactly one skew partition, which is not balanced. It does satisfy items (1), (2) and (3) of 1.8.",
-        "fix": "Theorem 10.6, which the paper calls 1.8(4) \"restated\", carries the hypothesis G \u2208 F\u2081 together with the K\u2084 condition that F\u2083 encodes, and never mentions F\u2084. The formalization proves 10.6 as printed and uses it directly, so the repaired reading is the one in force. Item 1.8(4) itself is not part of the Lean build: the route to the main theorem runs through 10.6 and the section theorems, not through 1.8.",
-        "refs": [
-          {
-            "fqn": "Workspace.Statements.S10.SPGT.thm_10_6",
-            "label": "Lean: 10.6"
-          }
-        ],
-        "paper_span": {
-          "pdf_file": "perfect.pdf",
-          "pdf_page": 9,
-          "quote": "For every G \u2208 F1 , either G is an even prism with |V (G)| = 9, or G admits a proper 2-join or a balanced skew partition, or G \u2208 F4 ."
-        },
-        "relation": null
-      },
-      "show_in_pdf": true,
-      "latex_file": "paper_text.tex",
-      "latex_range": {
-        "start_line": 299,
-        "end_line": 300,
-        "start_col": 3,
-        "end_col": 38
-      },
-      "pdf_page": 9,
-      "prose": "For every G \u2208 F1 , either G is an even prism with |V (G)| = 9, or G admits a proper 2-join or a balanced skew partition, or G \u2208 F4 ."
-    },
-    {
-      "link_id": "lnk_12b5482d7dca85c3",
-      "lean_fqn": "Workspace.ProofLemmas.Thm93PrintedCounterexample.printed_nine_three_false",
-      "lean_file": "lean_workspace/Workspace/ProofLemmas/Thm93PrintedCounterexample.lean",
+      "link_id": "lnk_c2fda78092026801",
+      "lean_fqn": "Workspace.Counterexamples.Thm93.printed_nine_three_false",
+      "lean_file": "lean_workspace/Workspace/Counterexamples/Thm93.lean",
       "lean_range": {
         "start_line": 460,
         "end_line": 498,
@@ -40496,7 +40360,7 @@
       "source": "manual",
       "verifier_vote": "none",
       "rationale": "Erratum anchor: Theorem 9.3, outcome 4, is false as printed",
-      "reachable": true,
+      "reachable": false,
       "assumption_tainted": false,
       "refuted": true,
       "erratum": {
@@ -40509,7 +40373,7 @@
             "label": "Lean: 9.3 with the corrected outcome 4"
           },
           {
-            "fqn": "Workspace.ProofLemmas.Thm93CaseTwoCounterexample.PrintedConclusion",
+            "fqn": "Workspace.Counterexamples.Thm93.PrintedConclusion",
             "label": "Lean: the conclusion of 9.3 exactly as printed"
           }
         ],

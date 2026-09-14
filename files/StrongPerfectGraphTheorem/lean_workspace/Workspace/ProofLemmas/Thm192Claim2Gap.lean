@@ -9,10 +9,11 @@ import Workspace.ProofLemmas.Thm192Claim2RimPath
 /-!
 # The wheel-to-path step in claim (2) of 19.2
 
-The original statement is false. `Thm192Claim2Counterexample` gives an eight-vertex
-counterexample even with `A = A₁`. This version includes the Berge and complete-end
-hypotheses used in the parity argument, and requires the inductive wheel to have its
-rim in `{x₀,x₁,z} ∪ A`; that wheel is supplied by
+Stated without the Berge hypothesis this step is false, and it stays false even when
+`A = A₁`: a wheel can offer two disjoint hub-complete rim edges of which only one survives
+on a path whose interior stays in `A`.  This version therefore includes the Berge and
+complete-end hypotheses used in the parity argument, and requires the inductive wheel to
+have its rim in `{x₀,x₁,z} ∪ A`; that wheel is supplied by
 `Thm192Claim2Localization.inductive_wheel_with_rim_in_A`.
 -/
 

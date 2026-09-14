@@ -39,11 +39,10 @@ instead of re-deriving them.
 * `claim2_witness` / `claim2_of_neighbour` — the positive branch of printed claim `(2)`:
   *"there is a `Y`-complete vertex in `{p_{i+1}, …, p_{j-1}}`.  If `v` has a neighbour in
   this set then the claim holds"*.  `claim2_of_neighbour` takes just a neighbour index and a
-  `Y`-complete index, both strictly between `i` and `j`, and returns the right disjunct of
-  `claim2` outright.  Both are proved.
+  `Y`-complete index, both strictly between `i` and `j`, and returns the positive branch of
+  printed claim `(2)` outright.  Both are proved.
 * `claim1` — the printed claim `(1)`, *"if `v` is both adjacent to `p₁` and `X`-complete then
   the conclusion holds"*; cited by claim `(2)` and by claim `(3)`.
-* `claim2` — the printed claim `(2)`, consumed by all three terminal claims.
 
 Index convention: the paper's `p_a` is `P[a-1]` (0-indexed).  In particular the paper's
 `2 ≤ i ≤ j ≤ n` becomes `1 ≤ i ≤ j < P.length`, and the paper's set
@@ -419,7 +418,7 @@ theorem hole_from_two_neighbours (G : SimpleGraph V) (P : List V) (hP : IsPathLi
 `{p_{i+1}, …, p_{j-1}}`.  If `v` has a neighbour in this set then the claim holds"*.
 
 `P[t]` is the neighbour of `v` and `P[s]` the `Y`-complete vertex, both with index strictly
-between `i` and `j`; the conclusion is exactly the right disjunct of `claim2`.  The `Q` produced
+between `i` and `j`; the conclusion is exactly the positive branch of printed claim `(2)`.  The `Q` produced
 runs from `v` to the `Y`-complete vertex nearest to `P[t]` on the `P[s]` side, entered at the
 neighbour of `v` nearest to that vertex — so `v` has exactly one neighbour on `Q \ v` and `Q`
 carries exactly one `Y`-complete vertex, its far end. -/
@@ -517,9 +516,9 @@ variable [Fintype V] [DecidableEq V]
 > statement does not hold; and the first holds only if `y = v`.  This proves (1)."*
 
 *"the conclusion holds"* is the conclusion of 18.5 itself, i.e. exactly the conclusion of
-`Thm185Claim3.claim3` / of the left disjunct of `claim2` — so a caller in the `X`-complete
-branch closes with `exact claim1 …` (or `exact Or.inl (claim1 …)` against `claim2`'s
-disjunction).
+`Thm185Claim3.claim3` / of the negative branch of printed claim `(2)` — so a caller in the `X`-complete
+branch closes with `exact claim1 …` (or `exact Or.inl (claim1 …)` against the
+disjunction of printed claim `(2)`).
 
 The hypothesis prefix is the one shared by `Thm185Claim3.claim3`, `Thm185Claim4.claim4` and
 `Thm185Final.finalCase`; the two extra hypotheses `hadj`, `hvX` are the printed
@@ -683,48 +682,5 @@ theorem claim1 (G : SimpleGraph V) (hG : InF7 G) (X Y : Set V) (P : List V) (p�
           exact List.mem_append_right _ (by rw [← e2]; exact List.mem_singleton_self _))
 
 end Claim1
-
-section Claim2
-
-variable [Fintype V] [DecidableEq V]
-
-/-- **Printed claim `(2)` of the proof of 18.5** (`paper/proofs/18_5.md`):
-
-> *"We may assume that there is a path `Q` from `v` to some vertex `q`, such that `q` is the
-> only `Y`-complete vertex in `Q`, and `V(Q \ v) ⊆ {p_{i+1}, …, p_{j-1}}`."*
-
-`i` and `j` are the indices fixed in the proof's opening paragraph: *"Choose `i,j` with
-`2 ≤ i ≤ j ≤ n` such that `p_i, p_j` are `Y`-complete, with `i` minimum and `j` maximum"*;
-they are passed in here as `i, j` with their defining minimality/maximality property
-`hminmax` (`exists_minmax_index` with `lo = 1` produces exactly this data).  Under the
-paper's `p_a = P[a-1]` convention the printed range `2 ≤ i ≤ j ≤ n` is `1 ≤ i ≤ j < P.length`
-and the printed set `{p_{i+1}, …, p_{j-1}}` is `{P[t] | i < t < j}`.
-
-*"We may assume"* is a disjunction: either the conclusion of 18.5 already holds outright
-(the printed proof's *"If `v` has a neighbour in this set then the claim holds"* and *"for
-otherwise the conclusion holds"* exits), or the path `Q` exists.  Callers discharge it with
-`rcases claim2 … with hdone | ⟨Q, q, hQ, hQY, hQsub⟩`.
-
-*"`q` is the only `Y`-complete vertex in `Q`"* is the biconditional `∀ w ∈ Q,
-VertexComplete G w Y ↔ w = q`, which also records that `q` itself is `Y`-complete. -/
-theorem claim2 (G : SimpleGraph V) (hG : InF7 G) (X Y : Set V) (P : List V) (p₁ pₙ : V)
-    (hopt : OptimalPseudowheel G X Y P)
-    (hhead : P.head? = some p₁) (hlast : P.getLast? = some pₙ)
-    (v : V) (hvXY : v ∉ X ∪ Y) (hvP : v ∉ P) (hvY : ¬ VertexComplete G v Y)
-    (i j : ℕ) (hi : i < P.length) (hj : j < P.length) (h1i : 1 ≤ i) (hij : i ≤ j)
-    (hYi : VertexComplete G (P[i]'hi) Y) (hYj : VertexComplete G (P[j]'hj) Y)
-    (hminmax : ∀ (t : ℕ) (ht : t < P.length), 1 ≤ t →
-      VertexComplete G (P[t]'ht) Y → i ≤ t ∧ t ≤ j) :
-    (∃ P' : List V, IsPathList G P' ∧ P' <:+: P ∧
-        (∀ w ∈ P, G.Adj v w → w ∈ P') ∧
-        (∀ w ∈ SPGT.interior P', ¬ VertexComplete G w Y) ∧
-        (VertexComplete G v X → ({w : V | w ∈ P'} = {p₁} ∨ pₙ ∈ P'))) ∨
-      (∃ (Q : List V) (q : V), IsPathFrom G Q v q ∧
-        (∀ w ∈ Q, VertexComplete G w Y ↔ w = q) ∧
-        (∀ w ∈ Q, w ≠ v → ∃ (t : ℕ) (ht : t < P.length),
-          i < t ∧ t < j ∧ (P[t]'ht) = w)) := by
-  sorry
-
-end Claim2
 
 end Workspace.ProofLemmas.Thm185Helpers
