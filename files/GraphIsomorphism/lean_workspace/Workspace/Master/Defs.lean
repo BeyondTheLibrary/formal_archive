@@ -1,0 +1,234 @@
+/-
+Formalization of
+
+  László Babai, *Graph Isomorphism in Quasipolynomial Time*,
+  Version 2.5 (2 November 2018).
+
+Section 15: the recursion of Procedure String-Isomorphism, and what it costs.
+-/
+import Workspace.Luks.Instances
+
+/-!
+# The recursion of the Master Algorithm
+
+`Babai.SIReduction` (Sec. 11.1) describes *one round* of Procedure String-Isomorphism: a
+decision tree whose internal nodes are String Isomorphism instances that somebody else
+answers.  Sec. 15 is what turns one round into an algorithm: the instances produced by a
+round are answered by running the same procedure again.
+
+This file defines that recursion, for an arbitrary "one round" function
+
+  `step : SIInstance Ω A → SIReduction Ω A (Set (Equiv.Perm Ω))`,
+
+and the two quantities the paper's Secs. 11.4 and 15 talk about:
+
+* `Babai.solveFuel step f I` — the value the recursion returns when it is allowed `f`
+  levels of recursion (`Babai.SIReduction.runWith` against the answers of the level below);
+* `Babai.countCalls step f I` — the number of String Isomorphism instances generated in the
+  whole recursion tree, i.e. the number of its nodes.
+
+Recursion on a *fuel* rather than on a measure keeps "the algorithm" apart from "the
+algorithm terminates", which is exactly how the paper separates Sec. 15 from Sec. 11.4.
+Termination is `Babai.solveFuel_eq_answer` in `Workspace/Master/Correctness.lean`, and the
+recursion-tree bound is `Babai.countCalls_le` below.
+
+Group operations are not counted; see the Sec. 15 entry of the corrected paper.
+-/
+
+universe u v w
+
+namespace Babai
+
+variable {Ω : Type u} {A : Type v} {ι : Type w}
+
+/-! ### The instances the Master Algorithm ever sees
+
+A general `Babai.SIInstance` carries a candidate **set** `K ⊆ S(Ω)`.  The paper's instances
+are always with respect to a *group*: Sec. 11.1 says *"input: group `G ≤ S(Ω)`"*, and the
+one place a coset appears — Prop. 11.1.6, the Luks descent — is turned back into a group by
+the shift `Iso_{Gσ}(x,y) = Iso_G(x, y^{σ⁻¹})σ` (Eq. (62)).  The window is always invariant
+under that group, because every reduction of Secs. 11–14 works on `G`-invariant windows.
+
+`Babai.IsGroupInstance` is that invariant.  It is not a restriction on the theorems: it is
+satisfied by the instance Theorem 1.1.1 starts from (`K = G`, window `Ω`), and every round
+of Sec. 15 turns a group instance into group instances.  See
+`Workspace/Master/DESIGN.md`, Decision 7. -/
+
+/-- The instances the Master Algorithm produces: the candidate set is a group `K`, and the
+window is `K`-invariant. -/
+def IsGroupInstance (I : SIInstance Ω A) : Prop :=
+  ∃ K : Subgroup (Equiv.Perm Ω), I.K = (K : Set (Equiv.Perm Ω)) ∧ IsInvariant K I.Δ
+
+/-- The instance Theorem 1.1.1 starts from — the group `G` with the full window — is a
+group instance. -/
+theorem isGroupInstance_full (G : Subgroup (Equiv.Perm Ω)) (x y : Ω → A) :
+    IsGroupInstance (⟨(G : Set (Equiv.Perm Ω)), Set.univ, x, y⟩ : SIInstance Ω A) :=
+  ⟨G, rfl, fun σ _ => by simp⟩
+
+/-! ### The recursion runs on *hinted* instances
+
+Sec. 14.2 measures the cost of a pair `(G, ϕ)`: *"Let `T(G, ϕ)` be the maximum cost over
+all input strings for the pair `(G, ϕ)`"*, and line 11 of Procedure Align hands the giant
+representation `ϕ*` down *"for recursive processing of the corresponding window"*.  The
+Johnson parameter is **not** a function of the group alone: `G = S_b × S_m` on `[b] × [m]`
+has two giant representations and two minimal block systems (the corrected paper
+Align).  So the recursion runs on a type `ι` of instances that carry whatever structure
+lines 1–3 have already found, with
+
+* `inst : ι → SIInstance Ω A` — the String Isomorphism instance underneath, and
+* `lift : ι → SIInstance Ω A → ι` — what a round attaches to each of its calls.
+
+The only thing asked of `lift` is that it does not change the instance
+(`inst (lift i J) = J` for every call `J`), so nothing about the answer depends on it.  -/
+
+/-- **Procedure String-Isomorphism**, Sec. 15, run with a bound `f` on the depth of the
+recursion: one round of `step` whose calls are answered by the same procedure with one
+level less, each call carrying the structure `lift` attaches to it.  With no fuel left the
+procedure returns nothing.
+
+`Babai.solveFuel_eq_answer` says that `f` levels suffice once `f` exceeds the paper's
+measure of the instance. -/
+def solveFuel (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) : ℕ → ι → Set (Equiv.Perm Ω)
+  | 0, _ => ∅
+  | f + 1, i => (step i).runWith (fun J => solveFuel step lift f (lift i J))
+
+@[simp] theorem solveFuel_zero (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) (i : ι) : solveFuel step lift 0 i = ∅ := rfl
+
+@[simp] theorem solveFuel_succ (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) (f : ℕ) (i : ι) :
+    solveFuel step lift (f + 1) i =
+      (step i).runWith (fun J => solveFuel step lift f (lift i J)) := rfl
+
+/-- The instances generated by the top round of the recursion, with the calls of the lower
+levels answering as the procedure really answers them. -/
+def roundCalls (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) (f : ℕ) (i : ι) : List (SIInstance Ω A) :=
+  (step i).callsWith (fun J => solveFuel step lift f (lift i J))
+
+/-- §11.4 and §15: the number of String Isomorphism instances generated in the whole
+recursion tree — the number of its nodes.  This is the quantity the recurrences of Sec. 11.4
+bound (`Workspace/Luks/Cost.lean`); the paper phrases them in terms of group operations,
+which belongs to the machine layer. -/
+def countCalls (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) : ℕ → ι → ℕ
+  | 0, _ => 0
+  | f + 1, i =>
+      (roundCalls step lift f i).length +
+        ((roundCalls step lift f i).map (fun J => countCalls step lift f (lift i J))).sum
+
+@[simp] theorem countCalls_zero (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) (i : ι) : countCalls step lift 0 i = 0 := rfl
+
+@[simp] theorem countCalls_succ (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) (f : ℕ) (i : ι) :
+    countCalls step lift (f + 1) i =
+      (roundCalls step lift f i).length +
+        ((roundCalls step lift f i).map (fun J => countCalls step lift f (lift i J))).sum :=
+  rfl
+
+/-! ### An oracle that is right on the calls runs the tree exactly as the true oracle does
+
+A reduction is a decision tree: the next instance it produces is built from the answers it
+has been handed.  So if the oracle `O` gives the true answer to every instance the tree
+asks for *under the true oracle*, then `O` and the true oracle drive the tree along the
+same path: same calls, same value.  This is what lets Sec. 15 state the properties of one
+round for the true oracle only (`Babai.MasterStep`), while the program runs the round
+against the answers of the level below (`Babai.solveFuel`). -/
+
+/-- If the oracle `O` agrees with the true answer on every instance satisfying `P`, and
+every call of `R` under the true oracle satisfies `P`, then `R` makes the same calls and
+returns the same value under `O` as under the true oracle.
+
+*Proof.*  Induction on the tree.  At a leaf there is nothing to prove.  At a call `J`, the
+head of `R.calls` is `J`, so `P J` holds and `O J = J.answer`; hence the continuation is
+applied to the same set in both runs, and its calls are the tail of `R.calls`. -/
+theorem SIReduction.callsWith_eq_calls_of_agree {α : Type*}
+    {O : SIInstance Ω A → Set (Equiv.Perm Ω)} {P : SIInstance Ω A → Prop}
+    (hO : ∀ J, P J → O J = J.answer) :
+    ∀ R : SIReduction Ω A α, (∀ J ∈ R.calls, P J) →
+      R.callsWith O = R.calls ∧ R.runWith O = R.run := by
+  intro R
+  induction R with
+  | done a => intro _; exact ⟨rfl, rfl⟩
+  | call J k ih =>
+    intro hP
+    have hPJ : P J := hP J (by simp [SIReduction.calls])
+    have hOJ : O J = J.answer := hO J hPJ
+    have htail : ∀ J' ∈ (k J.answer).calls, P J' := fun J' hJ' =>
+      hP J' (by simp [SIReduction.calls, hJ'])
+    obtain ⟨h1, h2⟩ := ih J.answer htail
+    refine ⟨?_, ?_⟩
+    · rw [SIReduction.callsWith_call, SIReduction.calls_call, hOJ, h1]
+    · rw [SIReduction.runWith_call, SIReduction.run_call, hOJ, h2]
+
+/-! ### The recursion-tree bound
+
+If a function `T` of the paper's measure satisfies the recurrence "the calls of one round,
+plus what each of them costs, is at most `T` of the measure of the instance", then `T`
+bounds the size of the whole recursion tree, at any depth.  This is the step from the
+recurrences of Sec. 11.4 to a bound on the algorithm. -/
+
+/-- The recursion tree of `Babai.solveFuel` has at most `T I` nodes.
+
+The hypotheses are the ones Sec. 15 supplies for **one round**, all at the true oracle:
+`horacle` says the recursion is correct once the fuel exceeds the measure (this is
+`Babai.MasterStep.solve_eq_answer`), `hrank` that every call of a round has smaller
+measure, `hclosed` that an invariant `P` is inherited by the calls (the invariant is what
+lets the recurrence use a bound such as "the window size is at most that of the original
+instance"), and `hrec` the one-round recurrence itself.
+
+*Proof.*  Induction on the fuel.  With fuel `f + 1` and `μ I < f + 1`, every call of the
+round has measure `< μ I ≤ f`, so the recursion below answers it correctly (`horacle`) and
+therefore the round asks exactly the instances it asks under the true oracle
+(`Babai.SIReduction.callsWith_eq_calls_of_agree`).  The count is then the number of those
+calls plus the counts of their subtrees, which by the induction hypothesis are at most
+`T (μ J)`, and the recurrence bounds the sum by `T (μ I)`. -/
+theorem countCalls_le (step : ι → SIReduction Ω A (Set (Equiv.Perm Ω)))
+    (lift : ι → SIInstance Ω A → ι) (inst : ι → SIInstance Ω A)
+    (hlift : ∀ i : ι, ∀ J ∈ (step i).calls, inst (lift i J) = J)
+    (P : ι → Prop) (μ : ι → ℕ) (T : ι → ℕ)
+    (horacle : ∀ (f : ℕ) (j : ι), P j → μ j < f → solveFuel step lift f j = (inst j).answer)
+    (hrank : ∀ i : ι, P i → ∀ J ∈ (step i).calls, μ (lift i J) < μ i)
+    (hclosed : ∀ i : ι, P i → ∀ J ∈ (step i).calls, P (lift i J))
+    (hrec : ∀ i : ι, P i →
+      ((step i).calls).length + (((step i).calls).map (fun J => T (lift i J))).sum ≤ T i) :
+    ∀ (f : ℕ) (i : ι), P i → μ i < f → countCalls step lift f i ≤ T i := by
+  intro f
+  induction f with
+  | zero => intro i _ h; exact absurd h (Nat.not_lt_zero _)
+  | succ f ih =>
+    intro i hP hμ
+    -- the oracle of the level below is right on the calls of this round
+    have hagree : ∀ J, (∃ hJ : J ∈ (step i).calls, P (lift i J) ∧ μ (lift i J) < μ i) →
+        solveFuel step lift f (lift i J) = J.answer := by
+      rintro J ⟨hJ, hPJ, hlt⟩
+      rw [horacle f (lift i J) hPJ (by omega), hlift i J hJ]
+    obtain ⟨hcalls, -⟩ :=
+      SIReduction.callsWith_eq_calls_of_agree (O := fun J => solveFuel step lift f (lift i J))
+        hagree (step i)
+        (fun J hJ => ⟨hJ, hclosed i hP J hJ, hrank i hP J hJ⟩)
+    have hround : roundCalls step lift f i = (step i).calls := hcalls
+    rw [countCalls_succ, hround]
+    refine le_trans (Nat.add_le_add_left ?_ _) (hrec i hP)
+    -- the subtrees of the calls are bounded termwise by the induction hypothesis
+    have key : ∀ (L : List (SIInstance Ω A)), (∀ J ∈ L, P (lift i J)) →
+        (∀ J ∈ L, μ (lift i J) < μ i) →
+        (L.map (fun J => countCalls step lift f (lift i J))).sum ≤
+          (L.map (fun J => T (lift i J))).sum := by
+      intro L
+      induction L with
+      | nil => intro _ _; simp
+      | cons J rest ihL =>
+        intro hall hlt
+        simp only [List.map_cons, List.sum_cons]
+        refine Nat.add_le_add
+          (ih (lift i J) (hall J (List.mem_cons_self ..)) ?_)
+          (ihL (fun K hK => hall K (List.mem_cons_of_mem _ hK))
+            (fun K hK => hlt K (List.mem_cons_of_mem _ hK)))
+        have := hlt J (List.mem_cons_self ..)
+        omega
+    exact key _ (hclosed i hP) (hrank i hP)
+
+end Babai

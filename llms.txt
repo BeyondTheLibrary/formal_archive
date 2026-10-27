@@ -20,6 +20,8 @@ Formalized math papers with bidirectional PDF/LaTeX <-> Lean cross-references.
     api/unitdistance/paper.json  api/unitdistance/lean.json  api/unitdistance/links.json
 - StrongPerfectGraphTheorem: The Strong Perfect Graph Theorem
     api/StrongPerfectGraphTheorem/paper.json  api/StrongPerfectGraphTheorem/lean.json  api/StrongPerfectGraphTheorem/links.json
+- GraphIsomorphism: Graph Isomorphism in Quasipolynomial Time
+    api/GraphIsomorphism/paper.json  api/GraphIsomorphism/lean.json  api/GraphIsomorphism/links.json
 
 ## Global
 - api/papers.json — JSON list of all papers

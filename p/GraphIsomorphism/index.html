@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FormaliaXiv</title>
+  <link rel="stylesheet" href="../../lib/pdf_viewer.css" />
+  <link rel="stylesheet" href="../../viewer.css" />
+  <style>#btn-graph{display:none}</style>
+</head>
+<body>
+  <div id="app" class="lean-closed">
+    <section id="pdf-col">
+      <a id="home-link" href="../../index.html" title="Back to FormaliaXiv — more info about this project">More info</a>
+      <div id="pdf-actions">
+        <button id="btn-errata" type="button" hidden title="Jump to the error in the paper">⚠ Error in the paper</button>
+        <button id="open-lean" type="button" title="Open the Lean panel (L)">Lean</button>
+      </div>
+      <div id="viewerContainer">
+        <div id="viewer" class="pdfViewer"></div>
+      </div>
+    </section>
+
+    <div id="splitter" role="separator" aria-orientation="vertical" tabindex="0" hidden></div>
+
+    <aside id="lean-col" hidden>
+      <header id="lean-head">
+        <div id="lean-meta">
+          <div id="lean-title">—</div>
+          <div id="lean-subtitle"></div>
+        </div>
+        <div id="lean-actions">
+          <button id="btn-nav" type="button" title="File browser (B)" aria-pressed="false">files</button>
+          <button id="btn-notes" type="button" title="Comments (N)" aria-pressed="false">notes</button>
+          <button id="btn-graph" type="button" title="Dependency graph (G)">graph</button>
+          <button id="btn-wrap" type="button" title="Toggle word wrap (W)" aria-pressed="true">wrap</button>
+          <button id="btn-download" type="button" title="Download Lean workspace as .zip (D)">.zip</button>
+          <button id="lean-close" type="button" title="Close (Esc)" aria-label="Close">×</button>
+        </div>
+      </header>
+      <div id="lean-body">
+        <nav id="lean-nav" hidden>
+          <div id="nav-search-wrap">
+            <input id="nav-search" placeholder="filter files…" autocomplete="off" />
+            <label id="nav-flagged-only" title="Show only files containing an axiom or sorry">
+              <input type="checkbox" id="nav-flagged-cb" /> <span class="nav-flag">⚠</span> only
+            </label>
+          </div>
+          <div id="nav-tree" tabindex="0"></div>
+        </nav>
+        <div id="nav-splitter" role="separator" aria-orientation="vertical" hidden></div>
+        <div id="lean-code-wrap"><div id="link-why" hidden></div><pre id="lean-code"></pre></div>
+      </div>
+      <section id="comments" hidden>
+        <div id="comments-head">
+          <span id="comments-title">Comments</span>
+          <button id="comments-collapse" type="button" title="Hide">×</button>
+        </div>
+        <div id="comments-list"></div>
+        <form id="comment-form">
+          <input id="comment-author" placeholder="name (optional)" autocomplete="off" />
+          <textarea id="comment-text" placeholder="Write a comment about this declaration…" rows="2"></textarea>
+          <button type="submit" id="comment-submit">Post</button>
+        </form>
+      </section>
+      <div id="hover-tip" hidden></div>
+    </aside>
+  </div>
+
+  <div id="loading">Loading PDF…</div>
+
+  <script>window.__STATIC__=true;</script>
+  <script type="module" src="../../viewer.js"></script>
+</body>
+</html>

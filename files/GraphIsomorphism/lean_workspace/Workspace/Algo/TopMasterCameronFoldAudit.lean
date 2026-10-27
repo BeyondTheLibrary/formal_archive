@@ -1,0 +1,35 @@
+import Workspace.Algo.TopMasterCameronCase
+
+#print axioms Algo.masterCameronChildInput_size
+#print axioms Algo.masterCameronChildInput_admitted
+#print axioms Algo.exists_masterCameronChild_cap
+#print axioms Algo.masterCamOpen_runCostQ
+#print axioms Algo.masterCamOpen_match
+#print axioms Algo.masterStoredDesc_runCostQ
+#print axioms Algo.masterCamLists_cover
+#print axioms Algo.masterCamStrongTree_run
+#print axioms Algo.masterCamStrongTree_calls
+#print axioms Algo.masterCamStrongTree_progress
+#print axioms Algo.masterCamChain_runCostQ
+#print axioms Algo.masterCamChain_match
+#print axioms Algo.masterCamSelect_runCostQ
+#print axioms Algo.masterCamSelect_match
+#print axioms Algo.masterCamSelect_match_at
+#print axioms Algo.masterCamPrepared_runCostQ
+#print axioms Algo.masterCamPrepared_match
+#print axioms Algo.masterCamPrepared_wf
+#print axioms Algo.masterCamBlockHom_row
+#print axioms Algo.masterCamDescentBase_K₁
+#print axioms Algo.masterCamDescentData_transitive_iff
+#print axioms Algo.masterCamDescentData_trace_transitive
+#print axioms Algo.masterCamPrepared_match_transitive
+#print axioms Algo.masterCamBase_G₁
+#print axioms Algo.expand_cosetDescent
+#print axioms Algo.liftWindow_descent_trace
+#print axioms Algo.masterCamDescentData_trace_intransitive
+#print axioms Algo.masterCamPrepared_match_descent
+#print axioms Algo.polyFun_masterCamRouteInput
+#print axioms Algo.masterCamRoute_spec
+#print axioms Algo.masterCameronDescentData_cost
+#print axioms Algo.masterCameronCase_loop
+#print axioms Algo.masterCameronLine1Case_loop

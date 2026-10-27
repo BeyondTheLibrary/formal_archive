@@ -1,0 +1,10 @@
+import Workspace.Algo.AggNodeEntryCanonical
+
+#print axioms Algo.sbipDesign3ChildCovariant
+#print axioms Algo.sbipRun_canonical_of_exact
+#print axioms Algo.exists_sbipRun_canonical
+#print axioms Algo.exists_bipInputRun_valid_canonical
+#print axioms Algo.exists_extendedSplitFamily_valid_canonical
+#print axioms Algo.aggnEntryFamilyCanonical_of_bip
+#print axioms Algo.exists_aggnRestoredEntryFamily_valid_canonical
+#print axioms Algo.aggnContinuation_transport_of_bip
